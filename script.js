@@ -1,63 +1,63 @@
 const questions = [
     {
         question: "How old will Nisreen be in a year?",
-        options: ["25 years old", "26 years old", "27 years old", "28 years old"],
-        correctIndex: 3,
-        funFact: "Time flies when you're having fun! She is growing wiser every single day."
+        options: ["31 years old", "32 years old", "33 years old", "34 years old"],
+        correctIndex: 2,
+        funFact: "33 and thriving! Every year she gets wiser, funnier, and more amazing. 🎂"
     },
     {
         question: "What was Nisreen's major in university?",
-        options: ["Computer Science", "Graphic Design", "Business Administration", "English Literature"],
-        correctIndex: 2,
-        funFact: "A proud graduate! She's always had a strong passion for technology and building things."
+        options: ["Architecture", "Civil Engineering", "Mechanical Engineering", "Interior Design"],
+        correctIndex: 1,
+        funFact: "Civil Engineering! She literally has the skills to build the world. 🏗️"
     },
     {
         question: "What is Nisreen's favorite food?",
-        options: ["Sushi", "Pizza", "Mansaf", "Burgers"],
-        correctIndex: 3,
-        funFact: "Sushi is absolute life. She knows all the best sushi spots in town!"
+        options: ["Mansaf", "Maqluba", "Okra (Bamya)", "Grilled Chicken"],
+        correctIndex: 2,
+        funFact: "Okra (الباميا) is her absolute comfort food — a true classic with amazing taste! 🍲"
     },
     {
         question: "What is Nisreen's favorite drink?",
-        options: ["Iced Spanish Latte", "Matcha Latte", "Turkish Coffee", "Fresh Orange Juice"],
+        options: ["Iced Latte", "Fresh Juice", "Water", "Green Tea"],
         correctIndex: 2,
-        funFact: "She literally runs on coffee! It's the ultimate fuel for her day."
+        funFact: "Pure, refreshing water — she stays hydrated and healthy every single day! 💧"
     },
     {
         question: "Which country does she dream of visiting the most?",
-        options: ["Japan", "Italy", "Switzerland", "France"],
+        options: ["France", "Italy", "Spain", "Greece"],
         correctIndex: 1,
-        funFact: "Nature, beautiful mountains, and peaceful winter vibes are calling her name!"
+        funFact: "Italy all the way! Pizza, pasta, history, and romance — what's not to love? 🇮🇹"
     },
     {
         question: "What is Nisreen's biggest fear?",
-        options: ["Spiders and insects", "Heights (Acrophobia)", "Public speaking", "Dark spaces"],
-        correctIndex: 2,
-        funFact: "Even the tiniest crawling bug can cause a major emergency panic!"
+        options: ["Spiders", "Cats", "Heights", "The Dark"],
+        correctIndex: 1,
+        funFact: "Cats! Yep, even the cutest fluffy ones send her running the other way! 🐱😱"
     },
     {
         question: "What is her dream car?",
-        options: ["Porsche 911", "Mercedes G-Wagon", "Tesla Model Y", "Range Rover SUV"],
-        correctIndex: 0,
-        funFact: "Style, strength, and premium luxury. She definitely likes to ride in class!"
+        options: ["Range Rover", "Mercedes G-Wagon", "Sports Car", "Tesla Model S"],
+        correctIndex: 2,
+        funFact: "Fast, stylish, and powerful — she wants a sports car that matches her energy! 🏎️"
     },
     {
         question: "What is Nisreen's favorite hobby?",
-        options: ["Photography", "Reading books", "Baking desserts", "Traveling & exploring"],
-        correctIndex: 1,
-        funFact: "An explorer at heart! She's always looking forward to her next big adventure."
+        options: ["Reading", "Painting", "Tennis", "Swimming"],
+        correctIndex: 2,
+        funFact: "Tennis! She's got the moves, the focus, and the competitive spirit to match! 🎾"
     },
     {
         question: "What is Nisreen's favorite color?",
-        options: ["Lavender Purple", "Pastel Pink", "Sky Blue", "Emerald Green"],
+        options: ["Blue", "Pink", "Black", "White"],
         correctIndex: 3,
-        funFact: "Purple is her color! It stands for creativity, premium style, and royalty."
+        funFact: "White — clean, elegant, and timeless. Just like her style! 🤍"
     },
     {
         question: "What is her absolute favorite emoji?",
-        options: ["✨ (Sparkles)", "🥺 (Pleading Face)", "😂 (Laugh-Cry)", "🤍 (White Heart)"],
-        correctIndex: 2,
-        funFact: "A little sparkle makes everything look magical and beautiful! ✨"
+        options: ["😂 (Laugh-Cry)", "🥺 (Pleading Face)", "🤍 (White Heart)", "🤣 (ROFL)"],
+        correctIndex: 3,
+        funFact: "🤣 — she laughs so hard she rolls on the floor! Pure joy and good vibes all day!"
     }
 ];
 
