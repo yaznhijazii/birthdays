@@ -627,12 +627,6 @@ async function connectToRoom(code) {
     channel
         .on('presence', { event: 'sync' }, () => updatePlayersFromPresence(channel.presenceState()))
         .on('broadcast', { event: 'game_start' },  () => startGameLocal())
-        .on('broadcast', { event: 'next_question' }, ({ payload }) => {
-            currentQuestionIndex = payload.index;
-            renderQuestion();
-        })
-        .on('broadcast', { event: 'show_answers' }, () => revealAnswers())
-        .on('broadcast', { event: 'game_over' },  () => showScore())
         .subscribe(async (status) => {
             if (status === 'SUBSCRIBED') {
                 await channel.track({ name: playerName, isHost, score: 0, status: 'lobby', questionNumber: 0 });
@@ -663,13 +657,6 @@ function updatePlayersFromPresence(presenceState) {
         document.getElementById('player-count-badge').textContent = playersList.length;
     }
 
-    if (isHost && isGameActive && !hasRevealedCurrentQuestion) {
-        const stillAnswering = playersList.filter(p => p.status === 'answering');
-        if (stillAnswering.length === 0 && playersList.length > 0) {
-            channel.send({ type: 'broadcast', event: 'show_answers' });
-            revealAnswers();
-        }
-    }
 }
 
 // ─── Start Game ───────────────────────────────────────────────────────────────
@@ -763,11 +750,9 @@ function handleAnswer(selectedIndex) {
     document.getElementById('options-container').style.pointerEvents = 'none';
 
     if (isMultiplayer) {
-        document.getElementById('waiting-for-others').classList.remove('hidden');
         channel?.track({ name: playerName, isHost, score, status: 'answered', questionNumber: currentQuestionIndex + 1 });
-    } else {
-        revealAnswers();
     }
+    revealAnswers();
 }
 
 // ─── Reveal Answers ───────────────────────────────────────────────────────────
@@ -797,34 +782,16 @@ function revealAnswers() {
     const nextBtn       = document.getElementById('next-btn');
     const waitingNext   = document.getElementById('player-waiting-next');
 
-    if (!isMultiplayer || isHost) {
-        nextBtn.classList.remove('hidden');
-        waitingNext.classList.add('hidden');
-    } else {
-        nextBtn.classList.add('hidden');
-        waitingNext.classList.remove('hidden');
-    }
+    nextBtn.classList.remove('hidden');
+    waitingNext.classList.add('hidden');
 }
 
 // ─── Next Question ────────────────────────────────────────────────────────────
 function handleNext() {
-    if (isMultiplayer && isHost) {
-        const nextIndex = currentQuestionIndex + 1;
-        if (nextIndex < questions.length) {
-            channel.send({ type: 'broadcast', event: 'next_question', payload: { index: nextIndex } });
-            currentQuestionIndex = nextIndex;
-            updateProgress();
-            renderQuestion();
-        } else {
-            channel.send({ type: 'broadcast', event: 'game_over' });
-            showScore();
-        }
-    } else if (!isMultiplayer) {
-        currentQuestionIndex++;
-        updateProgress();
-        if (currentQuestionIndex < questions.length) renderQuestion();
-        else showScore();
-    }
+    currentQuestionIndex++;
+    updateProgress();
+    if (currentQuestionIndex < questions.length) renderQuestion();
+    else showScore();
 }
 
 function updateProgress() {
