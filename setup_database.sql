@@ -21,7 +21,8 @@ create table if not exists quiz_messages (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   room_code text not null,
   player_name text not null,
-  message text not null
+  message text not null,
+  font_style text default 'font-ruqaa|'
 );
 
 -- Enable Realtime only if not already enabled (safe idempotent approach)

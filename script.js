@@ -1,63 +1,63 @@
 const questions = [
     {
-        question: "What is Nisreen's absolute favorite way to start the day?",
-        options: ["A strong cup of coffee", "Yoga and meditation", "Hitting the snooze button 5 times", "A brisk morning run"],
+        question: "How old will Nisreen be in a year?",
+        options: ["25 years old", "26 years old", "27 years old", "28 years old"],
+        correctIndex: 3,
+        funFact: "Time flies when you're having fun! She is growing wiser every single day."
+    },
+    {
+        question: "What was Nisreen's major in university?",
+        options: ["Computer Science", "Graphic Design", "Business Administration", "English Literature"],
+        correctIndex: 2,
+        funFact: "A proud graduate! She's always had a strong passion for technology and building things."
+    },
+    {
+        question: "What is Nisreen's favorite food?",
+        options: ["Sushi", "Pizza", "Mansaf", "Burgers"],
+        correctIndex: 3,
+        funFact: "Sushi is absolute life. She knows all the best sushi spots in town!"
+    },
+    {
+        question: "What is Nisreen's favorite drink?",
+        options: ["Iced Spanish Latte", "Matcha Latte", "Turkish Coffee", "Fresh Orange Juice"],
+        correctIndex: 2,
+        funFact: "She literally runs on coffee! It's the ultimate fuel for her day."
+    },
+    {
+        question: "Which country does she dream of visiting the most?",
+        options: ["Japan", "Italy", "Switzerland", "France"],
+        correctIndex: 1,
+        funFact: "Nature, beautiful mountains, and peaceful winter vibes are calling her name!"
+    },
+    {
+        question: "What is Nisreen's biggest fear?",
+        options: ["Spiders and insects", "Heights (Acrophobia)", "Public speaking", "Dark spaces"],
+        correctIndex: 2,
+        funFact: "Even the tiniest crawling bug can cause a major emergency panic!"
+    },
+    {
+        question: "What is her dream car?",
+        options: ["Porsche 911", "Mercedes G-Wagon", "Tesla Model Y", "Range Rover SUV"],
         correctIndex: 0,
-        funFact: "She literally cannot function without her morning coffee. It's science."
+        funFact: "Style, strength, and premium luxury. She definitely likes to ride in class!"
     },
     {
-        question: "If Nisreen could only eat one food for the rest of her life, what would it be?",
-        options: ["Pizza", "Sushi", "Pasta", "Tacos"],
+        question: "What is Nisreen's favorite hobby?",
+        options: ["Photography", "Reading books", "Baking desserts", "Traveling & exploring"],
         correctIndex: 1,
-        funFact: "Sushi is life. She knows all the best spots in town."
+        funFact: "An explorer at heart! She's always looking forward to her next big adventure."
     },
     {
-        question: "What's her go-to karaoke song?",
-        options: ["Bohemian Rhapsody", "I Will Survive", "Wannabe by Spice Girls", "She refuses to do karaoke"],
+        question: "What is Nisreen's favorite color?",
+        options: ["Lavender Purple", "Pastel Pink", "Sky Blue", "Emerald Green"],
         correctIndex: 3,
-        funFact: "You will never catch her on stage with a mic. Ever."
+        funFact: "Purple is her color! It stands for creativity, premium style, and royalty."
     },
     {
-        question: "How does Nisreen usually spend her weekends?",
-        options: ["Binge-watching Netflix", "Hiking in nature", "Trying new restaurants", "Reading a good book"],
+        question: "What is her absolute favorite emoji?",
+        options: ["✨ (Sparkles)", "🥺 (Pleading Face)", "😂 (Laugh-Cry)", "🤍 (White Heart)"],
         correctIndex: 2,
-        funFact: "She's an undercover food critic. Always finding the best hidden gems."
-    },
-    {
-        question: "What's her biggest pet peeve?",
-        options: ["Loud chewers", "People being late", "Slow Wi-Fi", "Typos in emails"],
-        correctIndex: 1,
-        funFact: "Time is money! Being 5 minutes late is basically a crime in her book."
-    },
-    {
-        question: "If Nisreen won the lottery, what's the first thing she'd buy?",
-        options: ["A private island", "A luxury car", "First-class tickets around the world", "A lifetime supply of coffee"],
-        correctIndex: 2,
-        funFact: "She has a travel bucket list a mile long. Next stop: everywhere."
-    },
-    {
-        question: "What was her dream job as a kid?",
-        options: ["Astronaut", "Veterinarian", "Pop star", "Teacher"],
-        correctIndex: 1,
-        funFact: "She used to try and rescue every stray animal she saw."
-    },
-    {
-        question: "Which of these perfectly describes her working style?",
-        options: ["Organized chaos", "To-do lists for everything", "Last-minute panic", "Zen and focused"],
-        correctIndex: 1,
-        funFact: "Her planner has a planner. The color-coding system is legendary."
-    },
-    {
-        question: "What is her secret hidden talent?",
-        options: ["Juggling", "Speaking a 3rd language", "Baking incredible cakes", "Remembering movie quotes"],
-        correctIndex: 3,
-        funFact: "She can recite entire movies word-for-word. It's slightly terrifying."
-    },
-    {
-        question: "Finally, how does she feel about celebrating her birthday?",
-        options: ["Hates the attention", "Loves a massive party", "Prefers a quiet dinner", "Expects a week-long festival"],
-        correctIndex: 3,
-        funFact: "It's not just a birth-day, it's a birth-week!"
+        funFact: "A little sparkle makes everything look magical and beautiful! ✨"
     }
 ];
 
@@ -134,7 +134,7 @@ if (birthdayCard) {
 }
 
 // ─── Screen Navigation ──────────────────────────────────────────────────────────
-const BLOCK_SCREENS = new Set(['score-screen', 'dashboard-screen']);
+const BLOCK_SCREENS = new Set(['score-screen', 'dashboard-screen', 'message-screen']);
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => {
         s.classList.remove('active');
@@ -196,16 +196,118 @@ function renderDashboardMessages(messages) {
 
     messages.forEach(msg => {
         const time = new Date(msg.created_at).toLocaleString('en-GB', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' });
+        
+        // Parse font_style metadata: "font-ruqaa|flower-1,flower-3"
+        let fontClass = 'font-ruqaa';
+        let flowers = [];
+        if (msg.font_style) {
+            const parts = msg.font_style.split('|');
+            fontClass = parts[0] || 'font-ruqaa';
+            if (parts[1]) {
+                flowers = parts[1].split(',').filter(Boolean);
+            }
+        }
+
+        let miniFlowerHtml = '';
+        if (flowers.length > 0) {
+            const firstFlowerId = flowers[0];
+            const flower = LN_FLOWERS.find(f => f.id === firstFlowerId);
+            if (flower) {
+                miniFlowerHtml = `<img src="${flower.url}" class="dash-note-mini-flower" alt="" />`;
+            }
+        }
+
         const card = document.createElement('div');
-        card.className = 'message-card';
+        card.className = 'dash-note-card';
         card.innerHTML = `
-            <div class="message-card-header">
-                <span class="msg-sender" style="color: #a5b4fc;">${escapeHtml(msg.player_name)}</span>
-                <span class="msg-room" style="color: var(--text-muted);">Room: ${msg.room_code} · ${time}</span>
+            <div class="dash-note-mini-envelope">
+                <img src="love_notes/card-base.png" alt="Envelope" />
+                ${miniFlowerHtml}
             </div>
-            <p class="msg-text">${escapeHtml(msg.message)}</p>
+            <div class="dash-note-body">
+                <div class="dash-note-meta">
+                    <span class="dash-note-sender">${escapeHtml(msg.player_name)}</span>
+                    <span class="dash-note-time">${time}</span>
+                </div>
+                <p class="dash-note-text ${fontClass}">${escapeHtml(msg.message)}</p>
+            </div>
+            <button class="dash-note-delete-btn" onclick="deleteMessage(${msg.id})" title="Delete message">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+            </button>
         `;
+        card.onclick = (e) => {
+            if (e.target.closest('.dash-note-delete-btn')) return;
+            openLetterModal(msg);
+        };
         container.appendChild(card);
+    });
+}
+
+async function deleteMessage(id) {
+    if (!confirm('Are you sure you want to delete this message?')) return;
+    const { error } = await client
+        .from('quiz_messages')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        showToast('Failed to delete message.');
+        console.error(error);
+    } else {
+        showToast('Message deleted.');
+        await fetchDashboardMessages();
+    }
+}
+window.deleteMessage = deleteMessage;
+
+let activeRoomChannels = {};
+function cleanupDashboardRooms() {
+    Object.keys(activeRoomChannels).forEach(code => {
+        activeRoomChannels[code].unsubscribe();
+    });
+    activeRoomChannels = {};
+}
+
+function renderDashboardLivePlayers(roomCode, presenceState) {
+    const container = document.getElementById(`live-players-${roomCode}`);
+    if (!container) return;
+
+    const players = Object.values(presenceState).map(arr => arr[arr.length - 1]);
+    container.innerHTML = '';
+
+    if (players.length === 0) {
+        container.innerHTML = `<span style="color:var(--text-muted); font-size:12px;">No players in room.</span>`;
+        return;
+    }
+
+    players.forEach(p => {
+        let statusText = p.status;
+        if (p.status === 'answering') statusText = `Thinking on Q${p.questionNumber || 1}`;
+        else if (p.status === 'answered') statusText = `Answered Q${p.questionNumber || 1}`;
+        else if (p.status === 'lobby') statusText = 'In Lobby';
+
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+        row.style.fontSize = '12px';
+        row.style.padding = '4px 0';
+        row.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+
+        row.innerHTML = `
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span class="player-dot" style="background-color: ${p.status === 'lobby' ? 'var(--text-muted)' : 'var(--success)'}; box-shadow: none; width:6px; height:6px;"></span>
+                <span style="font-weight:700;">${escapeHtml(p.name)}</span>
+                <span style="font-size:10px; opacity:0.6; background:rgba(255,255,255,0.06); padding:1px 4px; border-radius:4px;">${statusText}</span>
+            </div>
+            <span style="font-weight:800; color:var(--primary);">${p.score}/10</span>
+        `;
+        container.appendChild(row);
     });
 }
 
@@ -225,32 +327,79 @@ async function fetchDashboardRooms() {
         return;
     }
 
-    for (const room of rooms) {
-        // Fetch scores for this room
-        const { data: scores } = await client
-            .from('quiz_scores')
-            .select('player_name, score')
-            .eq('room_code', room.room_code)
-            .order('score', { ascending: false });
+    // Clean up channels that are no longer in our live rooms list
+    const currentRoomCodes = new Set(rooms.map(r => r.room_code));
+    Object.keys(activeRoomChannels).forEach(code => {
+        if (!currentRoomCodes.has(code)) {
+            activeRoomChannels[code].unsubscribe();
+            delete activeRoomChannels[code];
+        }
+    });
 
+    for (const room of rooms) {
         const row = document.createElement('div');
         row.className = 'dashboard-room-row';
 
-        const scoresHtml = scores && scores.length > 0
-            ? scores.map((s, i) => `
-                <div style="display:flex; justify-content: space-between; font-size:13px; font-weight:600; color:var(--text-secondary); padding: 4px 0; border-bottom: 1px solid var(--border-color);">
-                    <span>${i + 1}. ${escapeHtml(s.player_name)}</span>
-                    <span style="color:var(--primary);">${s.score}/${questions.length}</span>
+        let contentHtml = '';
+
+        if (room.status === 'lobby' || room.status === 'playing') {
+            // Live Room: Subscribe to presence
+            if (!activeRoomChannels[room.room_code]) {
+                const chan = client.channel(`room_${room.room_code}`);
+                chan.on('presence', { event: 'sync' }, () => {
+                    renderDashboardLivePlayers(room.room_code, chan.presenceState());
+                }).subscribe(status => {
+                    if (status === 'SUBSCRIBED') {
+                        renderDashboardLivePlayers(room.room_code, chan.presenceState());
+                    }
+                });
+                activeRoomChannels[room.room_code] = chan;
+            }
+
+            contentHtml = `
+                <div style="margin-top:8px; background:rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); border-radius:12px; padding:10px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span style="font-size:11px; font-weight:800; color:#34d399; display:flex; align-items:center; gap:6px;">
+                            <span class="pulse-dot" style="background-color:#34d399; box-shadow: 0 0 8px #34d399; width:6px; height:6px;"></span>
+                            LIVE SCOREBOARD
+                        </span>
+                    </div>
+                    <div id="live-players-${room.room_code}" style="display:flex; flex-direction:column; gap:4px;">
+                        Connecting to live room...
+                    </div>
                 </div>
-            `).join('')
-            : `<p style="color:var(--text-muted); font-size:12px;">No scores recorded yet.</p>`;
+            `;
+        } else {
+            // Finished Room: Fetch static scoreboard
+            if (activeRoomChannels[room.room_code]) {
+                activeRoomChannels[room.room_code].unsubscribe();
+                delete activeRoomChannels[room.room_code];
+            }
+
+            const { data: scores } = await client
+                .from('quiz_scores')
+                .select('player_name, score')
+                .eq('room_code', room.room_code)
+                .order('score', { ascending: false });
+
+            const scoresHtml = scores && scores.length > 0
+                ? scores.map((s, i) => `
+                    <div style="display:flex; justify-content: space-between; font-size:13px; font-weight:600; color:var(--text-secondary); padding: 4px 0; border-bottom: 1px solid var(--border-color);">
+                        <span>${i + 1}. ${escapeHtml(s.player_name)}</span>
+                        <span style="color:var(--primary);">${s.score}/${questions.length}</span>
+                    </div>
+                `).join('')
+                : `<p style="color:var(--text-muted); font-size:12px;">No scores recorded yet.</p>`;
+
+            contentHtml = `<div style="display:flex; flex-direction:column; gap:4px; margin-top:8px;">${scoresHtml}</div>`;
+        }
 
         row.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span style="font-weight:800; font-size:18px; letter-spacing:1px;">${room.room_code}</span>
                 <span class="room-status-badge ${room.status}">${room.status}</span>
             </div>
-            <div style="display:flex; flex-direction:column; gap:4px;">${scoresHtml}</div>
+            ${contentHtml}
         `;
         container.appendChild(row);
     }
@@ -280,9 +429,108 @@ function cleanupDashboard() {
         dashboardChannel.unsubscribe();
         dashboardChannel = null;
     }
+    cleanupDashboardRooms();
 }
 
-// ─── Standalone Message (Message Screen) ─────────────────────────────────────
+// ─── Love Notes Card System ──────────────────────────────────────────────────
+const LN_FLOWERS = [
+    { id: 'flower-1', url: 'love_notes/flower-1.png' },
+    { id: 'flower-2', url: 'love_notes/flower-2.png' },
+    { id: 'flower-3', url: 'love_notes/flower-3.png' },
+    { id: 'flower-4', url: 'love_notes/flower-4.png' },
+    { id: 'flower-5', url: 'love_notes/flower-5.png' },
+    { id: 'flower-6', url: 'love_notes/flower-6.png' },
+    { id: 'flower-7', url: 'love_notes/flower-7.png' },
+];
+
+const LN_FLOWER_SLOTS = [
+    { x: '-5%',  y: '30%', rotate: 0,   scale: 1.25 },
+    { x: '-18%', y: '32%', rotate: -12, scale: 1.1  },
+    { x: '10%',  y: '35%', rotate: 10,  scale: 1.15 },
+    { x: '25%',  y: '42%', rotate: 22,  scale: 1.0  },
+    { x: '-28%', y: '40%', rotate: -22, scale: 1.0  },
+];
+
+let selectedFlowers = [];
+let selectedFont = 'font-ruqaa';
+
+// Build flower picker grid on load
+function initLoveNotes() {
+    const grid = document.getElementById('ln-flower-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    LN_FLOWERS.forEach(flower => {
+        const btn = document.createElement('button');
+        btn.className = 'ln-flower-pick';
+        btn.dataset.flowerId = flower.id;
+        btn.innerHTML = `<img src="${flower.url}" alt="" />`;
+        btn.onclick = () => toggleFlower(flower.id, btn);
+        grid.appendChild(btn);
+    });
+}
+
+function toggleFlower(id, btn) {
+    if (selectedFlowers.includes(id)) {
+        selectedFlowers = selectedFlowers.filter(f => f !== id);
+        btn.classList.remove('selected');
+    } else if (selectedFlowers.length < 5) {
+        selectedFlowers.push(id);
+        btn.classList.add('selected');
+    }
+    document.getElementById('ln-flower-count').textContent = `${selectedFlowers.length} / 5`;
+    renderCardFlowers();
+}
+
+function renderCardFlowers() {
+    const layer = document.getElementById('ln-flowers-layer');
+    layer.innerHTML = '';
+    selectedFlowers.forEach((fid, idx) => {
+        const flower = LN_FLOWERS.find(f => f.id === fid);
+        if (!flower) return;
+        const slot = LN_FLOWER_SLOTS[idx % LN_FLOWER_SLOTS.length];
+        const div = document.createElement('div');
+        div.className = 'ln-flower-item';
+        div.style.left = '50%';
+        div.style.top = slot.y;
+        div.style.marginLeft = slot.x;
+        div.style.transform = `scale(${slot.scale}) rotate(${slot.rotate}deg)`;
+        div.innerHTML = `<img src="${flower.url}" alt="" />`;
+        layer.appendChild(div);
+    });
+}
+
+function selectFont(btnEl) {
+    selectedFont = btnEl.dataset.font;
+    document.querySelectorAll('.ln-font-btn').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+    // Update preview font
+    const previewText   = document.getElementById('ln-preview-text');
+    const previewSender = document.getElementById('ln-preview-sender');
+    const toText        = document.getElementById('ln-to-text');
+    previewText.className   = `ln-preview-text ${selectedFont}`;
+    previewSender.className = `ln-preview-sender ${selectedFont}`;
+    toText.className        = selectedFont;
+    // Update to-label text
+    toText.textContent = selectedFont === 'font-ruqaa' ? 'إلى: Nisreen' : 'To: Nisreen';
+}
+
+// Live preview bindings
+function setupLivePreview() {
+    const nameInput = document.getElementById('msg-sender-name');
+    const bodyInput = document.getElementById('msg-body');
+    if (!nameInput || !bodyInput) return;
+
+    bodyInput.addEventListener('input', () => {
+        const text = bodyInput.value.trim();
+        document.getElementById('ln-preview-text').textContent = text || (selectedFont === 'font-ruqaa' ? 'اكتب رسالتك هنا...' : 'Write your message...');
+    });
+
+    nameInput.addEventListener('input', () => {
+        const name = nameInput.value.trim();
+        document.getElementById('ln-preview-sender').textContent = name ? `— ${name}` : (selectedFont === 'font-ruqaa' ? '— اسمك' : '— Your name');
+    });
+}
+
 async function sendStandaloneMessage() {
     const nameInput = document.getElementById('msg-sender-name');
     const bodyInput = document.getElementById('msg-body');
@@ -296,12 +544,15 @@ async function sendStandaloneMessage() {
     btn.textContent = 'Sending...';
     btn.disabled = true;
 
+    // Build font_style metadata: "font-ruqaa|flower-1,flower-3"
+    const fontStyle = `${selectedFont}|${selectedFlowers.join(',')}`;
+
     const { error } = await client
         .from('quiz_messages')
-        .insert([{ room_code: 'message', player_name: name, message: msg }]);
+        .insert([{ room_code: 'message', player_name: name, message: msg, font_style: fontStyle }]);
 
     btn.disabled = false;
-    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> Send Message`;
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> Send Letter`;
 
     if (error) {
         showToast('Failed to send. Try again.');
@@ -314,6 +565,10 @@ async function sendStandaloneMessage() {
     bodyInput.value = '';
     nameInput.value = '';
 }
+
+// Initialize love notes on page load
+initLoveNotes();
+setupLivePreview();
 
 // ─── Room Utilities ───────────────────────────────────────────────────────────
 function generateRoomCode() {
@@ -380,7 +635,7 @@ async function connectToRoom(code) {
         .on('broadcast', { event: 'game_over' },  () => showScore())
         .subscribe(async (status) => {
             if (status === 'SUBSCRIBED') {
-                await channel.track({ name: playerName, isHost, score: 0, status: 'lobby' });
+                await channel.track({ name: playerName, isHost, score: 0, status: 'lobby', questionNumber: 0 });
             } else if (status === 'CHANNEL_ERROR') {
                 showToast("Failed to connect to room.");
             }
@@ -460,7 +715,7 @@ function renderQuestion() {
         container.appendChild(btn);
     });
 
-    channel?.track({ name: playerName, isHost, score, status: 'answering' });
+    channel?.track({ name: playerName, isHost, score, status: 'answering', questionNumber: currentQuestionIndex + 1 });
     startTimer();
 }
 
@@ -509,7 +764,7 @@ function handleAnswer(selectedIndex) {
 
     if (isMultiplayer) {
         document.getElementById('waiting-for-others').classList.remove('hidden');
-        channel?.track({ name: playerName, isHost, score, status: 'answered' });
+        channel?.track({ name: playerName, isHost, score, status: 'answered', questionNumber: currentQuestionIndex + 1 });
     } else {
         revealAnswers();
     }
@@ -698,3 +953,71 @@ function copyResult() {
 function escapeHtml(str) {
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+
+// ─── Letter Viewer Modal ──────────────────────────────────────────────────────
+function openLetterModal(msg) {
+    const modal = document.getElementById('letter-modal');
+    const textEl = document.getElementById('modal-ln-text');
+    const senderEl = document.getElementById('modal-ln-sender');
+    const toEl = document.getElementById('modal-ln-to');
+    const flowersLayer = document.getElementById('modal-ln-flowers-layer');
+
+    // Parse font_style: "font-ruqaa|flower-1,flower-3"
+    let fontClass = 'font-ruqaa';
+    let flowers = [];
+    if (msg.font_style) {
+        const parts = msg.font_style.split('|');
+        fontClass = parts[0] || 'font-ruqaa';
+        if (parts[1]) {
+            flowers = parts[1].split(',').filter(Boolean);
+        }
+    }
+
+    // Set font styles
+    textEl.className = `ln-preview-text ${fontClass}`;
+    senderEl.className = `ln-preview-sender ${fontClass}`;
+    toEl.className = fontClass;
+    toEl.textContent = fontClass === 'font-ruqaa' ? 'إلى: Nisreen' : 'To: Nisreen';
+
+    // Set content
+    textEl.textContent = msg.message;
+    senderEl.textContent = `— ${msg.player_name}`;
+
+    // Render flowers
+    flowersLayer.innerHTML = '';
+    flowers.forEach((fid, idx) => {
+        const flower = LN_FLOWERS.find(f => f.id === fid);
+        if (!flower) return;
+        const slot = LN_FLOWER_SLOTS[idx % LN_FLOWER_SLOTS.length];
+        const div = document.createElement('div');
+        div.className = 'ln-flower-item';
+        div.style.left = '50%';
+        div.style.top = slot.y;
+        div.style.marginLeft = slot.x;
+        div.style.transform = `scale(${slot.scale}) rotate(${slot.rotate}deg)`;
+        div.innerHTML = `<img src="${flower.url}" alt="" />`;
+        flowersLayer.appendChild(div);
+    });
+
+    modal.classList.add('active');
+}
+
+function closeLetterModal() {
+    document.getElementById('letter-modal').classList.remove('active');
+}
+
+// Close modal when clicking outside modal-content
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('letter-modal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeLetterModal();
+            }
+        });
+    }
+});
+
+window.openLetterModal = openLetterModal;
+window.closeLetterModal = closeLetterModal;
+

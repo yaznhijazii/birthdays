@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cedarville+Cursive&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -89,10 +90,10 @@
         </div>
 
         <!-- ══════════════════════════════════════════ -->
-        <!-- WRITE A MESSAGE SCREEN                    -->
+        <!-- WRITE A MESSAGE SCREEN (Love Notes Style) -->
         <!-- ══════════════════════════════════════════ -->
-        <div id="message-screen" class="screen hidden">
-            <div class="screen-header">
+        <div id="message-screen" class="screen hidden" style="overflow-y:auto; padding-bottom:30px;">
+            <div class="screen-header" style="flex-shrink:0;">
                 <button class="back-btn" onclick="showScreen('home-screen')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -102,45 +103,104 @@
                 </button>
             </div>
 
-            <div class="logo-area" style="margin-top: 10px;">
-                <div class="icon-wrapper" style="background: rgba(217,70,239,0.1); border-color: rgba(217,70,239,0.25); color: #D946EF;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cake-svg">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            <!-- ── Live Card Preview ── -->
+            <div class="ln-card-wrapper">
+                <div class="ln-card">
+                    <!-- Envelope back -->
+                    <img src="love_notes/card-base.png" class="ln-card-base" alt="" />
+
+                    <!-- Flowers layer -->
+                    <div class="ln-flowers-layer" id="ln-flowers-layer"></div>
+
+                    <!-- Paper letter -->
+                    <div class="ln-paper-frame">
+                        <img src="love_notes/card-paper.png" class="ln-paper-bg" alt="" />
+                        <div class="ln-paper-content">
+                            <p id="ln-preview-text" class="ln-preview-text font-ruqaa">اكتب رسالتك هنا...</p>
+                            <span id="ln-preview-sender" class="ln-preview-sender font-ruqaa">— اسمك</span>
+                        </div>
+                    </div>
+
+                    <!-- Envelope front mask -->
+                    <img src="love_notes/card-mask.png" class="ln-card-mask" alt="" />
+
+                    <!-- "To" label on envelope -->
+                    <div class="ln-to-label">
+                        <span id="ln-to-text" class="font-ruqaa">إلى: Nisreen</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Composer Panel ── -->
+            <div class="ln-composer">
+                <!-- Name -->
+                <div class="ln-field-group">
+                    <label class="ln-label">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Your Name
+                    </label>
+                    <input type="text" id="msg-sender-name" placeholder="Enter your name" maxlength="20" class="ln-input" autocomplete="off" />
+                </div>
+
+                <!-- Message -->
+                <div class="ln-field-group">
+                    <label class="ln-label">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                            <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                            <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                            <path d="M2 2l7.586 7.586"></path>
+                            <circle cx="11" cy="11" r="2"></circle>
+                        </svg>
+                        Your Message
+                    </label>
+                    <textarea id="msg-body" placeholder="Write something beautiful for Nisreen..." class="ln-textarea"></textarea>
+                </div>
+
+                <!-- Font Selector -->
+                <div class="ln-section">
+                    <span class="ln-section-title">Font Style</span>
+                    <div class="ln-font-grid">
+                        <button class="ln-font-btn active" data-font="font-ruqaa" onclick="selectFont(this)">
+                            <span class="font-ruqaa" style="font-size:22px;">عربي</span>
+                            <span class="ln-font-label">رقعة</span>
+                        </button>
+                        <button class="ln-font-btn" data-font="font-cedarville" onclick="selectFont(this)">
+                            <span class="font-cedarville" style="font-size:20px;">English</span>
+                            <span class="ln-font-label">Handwriting</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Flower Selector -->
+                <div class="ln-section">
+                    <div class="ln-section-header">
+                        <span class="ln-section-title">Add Flowers</span>
+                        <span id="ln-flower-count" class="ln-flower-count">0 / 5</span>
+                    </div>
+                    <div class="ln-flower-grid" id="ln-flower-grid"></div>
+                </div>
+
+                <!-- Success Banner -->
+                <div id="message-sent-success" class="ln-success hidden">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
+                    <span>Message sent with love!</span>
                 </div>
+
+                <!-- Send Button -->
+                <button id="send-standalone-message-btn" class="ln-send-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                    Send Letter
+                </button>
             </div>
-
-            <h1 style="font-size: 24px;">A Message for Nisreen</h1>
-            <p class="subtitle">She'll see every word — make it count!</p>
-
-            <div class="glass-card" style="display:flex; flex-direction:column; gap:16px; margin-bottom:20px;">
-                <div class="input-group">
-                    <label class="input-label">Your Name</label>
-                    <input type="text" id="msg-sender-name" placeholder="Enter your name" maxlength="20" class="form-input" autocomplete="off" />
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Your Birthday Message</label>
-                    <textarea id="msg-body" placeholder="Write something nice for Nisreen..." class="form-input" style="height:110px; resize:none; line-height:1.5;"></textarea>
-                </div>
-            </div>
-
-            <div style="flex:1"></div>
-
-            <div id="message-sent-success" class="success-banner hidden">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
-                Message sent with love!
-            </div>
-
-            <button id="send-standalone-message-btn" class="action-btn primary" style="margin-bottom:20px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
-                Send Message
-            </button>
         </div>
 
         <!-- ══════════════════════════════════════════ -->
@@ -444,6 +504,37 @@
             <polyline points="22 4 12 14.01 9 11.01"></polyline>
         </svg>
         <span>Done!</span>
+    </div>
+
+    <!-- Letter Viewer Modal -->
+    <div id="letter-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="ln-card" id="modal-ln-card">
+                <!-- Envelope back -->
+                <img src="love_notes/card-base.png" class="ln-card-base" alt="" />
+
+                <!-- Flowers layer -->
+                <div class="ln-flowers-layer" id="modal-ln-flowers-layer"></div>
+
+                <!-- Paper letter -->
+                <div class="ln-paper-frame">
+                    <img src="love_notes/card-paper.png" class="ln-paper-bg" alt="" />
+                    <div class="ln-paper-content" style="padding-bottom: 28px;">
+                        <p id="modal-ln-text" class="ln-preview-text font-ruqaa">Message goes here...</p>
+                        <span id="modal-ln-sender" class="ln-preview-sender font-ruqaa">— Sender</span>
+                    </div>
+                </div>
+
+                <!-- Envelope front mask -->
+                <img src="love_notes/card-mask.png" class="ln-card-mask" alt="" />
+
+                <!-- "To" label on envelope -->
+                <div class="ln-to-label">
+                    <span id="modal-ln-to" class="font-ruqaa">إلى: Nisreen</span>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="closeLetterModal()">Close Letter</button>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
